@@ -60,13 +60,13 @@ The input files containing the board data will consist of nine (9) lines, where 
 2,8,5,4,7,3,9,1,6
 ```
 
-you can use the fscanf function with the "%d," format string inside of a nested loop to read each value into your `sudoku_board` 2-dimensional array.
+You can use the fscanf function with the "%d," format string inside of a nested loop to read each value into your `sudoku_board` 2-dimensional array.
 
 ## Passing Parameters to Each Thread
 
 There are different strategies that can be adopted to verify the rows, columns, and 3x3 subgrids are valid.  One way is to write a function that validates a row, one that validates a column, and one that validates a 3x3 subgrid.
 
-These functions each will need information on where to start.  The parent thread will create the worker threads, passing each worker the starting location that it must check in the Sudoku grid. This step will require passing several parameters to each thread. The easiest approach is to create a data structure using a struct. For example, a structure to pass the starting row, starting column, ending row, and ending column where a thread must begin and end validating would appear as follows:
+Each of these functions will require information on where to start.  The parent thread will create the worker threads, passing each worker the starting location that it must check in the Sudoku grid. This step will require passing several parameters to each thread. The easiest approach is to create a data structure using a struct. For example, a structure to pass the starting row, starting column, ending row, and ending column where a thread must begin and end validating would appear as follows:
 
 ```
 /* structure for passing data to threads */
@@ -99,22 +99,22 @@ You will need to create an array, as illustrated above, to hold the parameters f
 
 ## Returning Results to the Parent Thread
 
-Each worker thread is assigned the task of determining the validity of a particular region of the Sudoku puzzle. Once a worker has performed this check, it must pass its results back to the parent. One good way to handle this is to create an array of integer values that is visible to each thread. An integer pointer called `worker_validation` is declared in **lab3.h** header file.  The i<sup>th</sup> index in this array corresponds to the i<sup>th</sup> worker thread. If a worker sets its corresponding value to 1, it indicates that its region of the Sudoku puzzle is valid. A value of 0 indicates otherwise. When all worker threads have completed, the parent thread checks each entry in the result array to determine if the Sudoku puzzle is valid.  That is the purpose of the `id` field in the param_struct.  This field provides the index into the array where the thread should deposit its result.
+Each worker thread is assigned the task of determining the validity of a particular region of the Sudoku puzzle. Once a worker has performed this check, it must pass its results back to the parent. One good way to handle this is to create an array of integer values that is visible to each thread. An integer pointer called `worker_validation` is declared in **lab3.h** header file.  The i<sup>th</sup> index in this array corresponds to the i<sup>th</sup> worker thread. If a worker sets its corresponding value to 1, it indicates that its region of the Sudoku puzzle is valid. A value of 0 indicates otherwise. When all worker threads have been completed, the parent thread checks each entry in the result array to determine if the Sudoku puzzle is valid.  That is the purpose of the `id` field in the param_struct.  This field provides the index into the array where the thread should deposit its result.
 
 ## Lab Structure
 
 The project contains the following files.
 
-1. <strong><u>lab3.h</u></strong> - header file that has all the #define macros, typedefs, the global variables for the sudoko board and the worker validation array.
+1. <strong><u>lab3.h</u></strong> - header file that has all the #define macros, typedefs, the global variables for the sudoku board, and the worker validation array.
 2. <strong><u>lab3.c</u></strong> - where all implementation must take place.
-3. <strong><u>main.c</u></strong> - entry point to program that reads sudoku board from file and calls is_sudoku_valid() function that must be implemented in **lab3.c**.
+3. <strong><u>main.c</u></strong> - entry point to a program that reads sudoku board from file and calls is_sudoku_valid() function that must be implemented in **lab3.c**.
 3. <strong><u>makefile</u></strong> - compiles and creates executable called **validate_sudoku**.
 4. <strong><u>valid_board.txt</u></strong> - valid board for testing.
 5.  <strong><u>invalid_board.txt</u></strong> - invalid board for testing.
 
-You are welcome to create your own **lab3.h** file and use your own typedef defintions.   You are also welcome to add any function you want in **lab3.c**.  The only requirement is that you have an implementation of,
+You are not to change **lab3.h**, **main.c**.  You are welcome to add any function you want in **lab3.c**.  The only requirement is that you have an implementation of,
 
-* ```int** read_board_from_file(char* filename);``` - returns a 2-dimensional integer array representing the board read from file.
+* ```int** read_board_from_file(char* filename);``` - returns a 2-dimensional integer array representing the board read from the file.
 * ```int is_board_valid();``` - returns a 1 if the board is valid; otherwise a 0
 
 Of course, the function or functions you implement to handle the validation of the column, row, and subgrids must have ```void* worker_function(void* param)```, worker_function should be replaced by the name you give the function.  This signature is required by the Pthread library.
@@ -131,8 +131,4 @@ You are required to implement,
 
 ## Submitting the Lab
 
-The lab is available on GitHub on the  <a href="https://github.com/mrasamny/202401-csci-320-lab3.git">instructor's Github repo</a>.  This allows you to click the <span style="background-color:grey; color:white;">&nbsp;&nbsp;Fork&nbsp;&nbsp;</span> button on the instructor's repo page.  This will duplicate the repo on your account.
-
-<span style="color:purple;">You must consistently push changes to your repo to show that your are consistently making progress on your work.  A single push will not be graded and you will receive no credit for your work.
-
-<span style="color:red;">When you have completed your work, submit your repo URL on Blackboard.</span>
+You are to submit **lab3.c** on CodeGrade.  The link to the submission portal is on the Programming Activities page on your class Blackboard under Programming Lab 3.
