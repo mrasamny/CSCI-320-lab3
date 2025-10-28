@@ -20,11 +20,11 @@ A **Sudoku** puzzle uses a 9 × 9 grid in which each column and row, as well as 
 
 There are several different ways of multithreading this application. One suggested strategy is to create threads that check the following criteria:
 
-- A thread to check that each column contains the digits 1 through 9
-- A thread to check that each row contains the digits 1 through 9
+- Nine threads to check that each of the nine columns contains the digits 1 through 9
+- Nine threads to check that each of the nine rows contains the digits 1 through 9
 - Nine threads to check that each of the 3 × 3 subgrids contains the digits 1 through 9
 
-This would result in a total of eleven separate threads for validating a Sudoku puzzle. However, you are welcome to create even more threads for this project. For example, rather than creating one thread that checks all nine columns or rows, you could create nine separate threads and have each of them check one column or one row.  This would result in twenty-seven separate threads.
+This would result in a total of twenty-seven (27) separate threads for validating a Sudoku puzzle. This is the strategy that will be adopted in this lab.
 
 ## Representing the Sudoku board
 
@@ -117,7 +117,7 @@ You are not to change **lab3.h**, **main.c**.  You are welcome to add any functi
 * ```int** read_board_from_file(char* filename);``` - returns a 2-dimensional integer array representing the board read from the file.
 * ```int is_board_valid();``` - returns a 1 if the board is valid; otherwise a 0
 
-Of course, the function or functions you implement to handle the validation of the column, row, and subgrids must have ```void* worker_function(void* param)```, worker_function should be replaced by the name you give the function.  This signature is required by the Pthread library.
+Of course, the function or functions you implement to handle the validation of the column, row, and subgrids must have ```void* worker_function(void* param)```, `worker_function` should be replaced by the name you give the function.  This signature is required by the Pthread library.
 
 ## Requirements
 
@@ -126,7 +126,7 @@ You are required to implement,
 <ul>
 <li><span style="font-family:courier;monospace">int** read_board_from_file(char* filename);</span></li>
 <li>int is_board_valid()</li>
-<li>At least nine (9) threads to validate the board</li>
+<li>Exactly 27 threads to validate the board</li>
 </ul>
 
 ## Submitting the Lab
